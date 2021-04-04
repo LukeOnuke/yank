@@ -36,7 +36,7 @@ function setupConsoleEvent() {
     console.log("Server sent console event " + event.data);
   }
   consoleAddEvent.onerror = function (err) {
-  
+
   }
 }
 
