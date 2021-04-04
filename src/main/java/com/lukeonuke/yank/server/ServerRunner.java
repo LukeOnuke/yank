@@ -103,7 +103,6 @@ public class ServerRunner implements CommandLineRunner {
             } catch (IOException e) {
                 emitter.complete();
                 sseService.remove(emitter);
-                e.printStackTrace();
             }
         });
     }
