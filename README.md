@@ -34,3 +34,6 @@ johndoe@gmail.com
 nn.pearson@gmail.com
 superuser@gmail.com
 ```
+---
+4. Get the minecraft server of your choice, rename it to `server.jar` and
+put it in the directory `<dir-where-yank-is-located>/server`

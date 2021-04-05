@@ -21,8 +21,6 @@ import java.io.*;
 import java.time.Instant;
 
 @Component
-@RestController
-@RequestMapping("/api/v1/server/")
 @Profile("!test")
 public class ServerRunner implements CommandLineRunner {
     private final Logger LOGGER = LoggerFactory.getLogger(ServerRunner.class);
@@ -36,7 +34,7 @@ public class ServerRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // save a few customers
-        String[] command = new String[]{"cmd", "/c", "java", "-Xmx5120M", "-Xms1024M", "-jar", "server.jar", "-nogui"};
+        String[] command = new String[]{"java", "-Xmx5120M", "-Xms1024M", "-jar", "server.jar", "-nogui"};
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.directory(new File("server/").getAbsoluteFile());
         processBuilder.redirectErrorStream(true);
@@ -80,13 +78,6 @@ public class ServerRunner implements CommandLineRunner {
         }
     }
 
-    @PostMapping(path = "send", consumes = "text/plain;charset=UTF-8", produces = "application/json")
-    public boolean sendToServer(@RequestBody String string){
-        consoleInput.println(string);
-        consoleInput.flush();
-        return true;
-    }
-
     private void log(String message){
         LOGGER.info("[game-server] " + message);
 
@@ -105,5 +96,13 @@ public class ServerRunner implements CommandLineRunner {
                 sseService.remove(emitter);
             }
         });
+    }
+
+    public BufferedReader getConsoleOutput() {
+        return consoleOutput;
+    }
+
+    public PrintStream getConsoleInput() {
+        return consoleInput;
     }
 }

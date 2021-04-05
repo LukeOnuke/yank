@@ -12,14 +12,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .logout(l -> l
-                        .logoutSuccessUrl("/").permitAll()
+                        .logoutSuccessUrl("/oauth2/authorization/google").permitAll()
                 )
                 .csrf(c -> c
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 )
                 .csrf().ignoringAntMatchers("/api/v1/server/send").and()
                 .antMatcher("/**").authorizeRequests()
-                .antMatchers("/", "/css/**").permitAll()
+                .antMatchers("/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
