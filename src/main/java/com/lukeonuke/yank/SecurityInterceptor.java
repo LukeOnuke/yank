@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class SecurityInterceptor implements HandlerInterceptor {
     private ArrayList<String> userArr;
@@ -44,19 +45,16 @@ public class SecurityInterceptor implements HandlerInterceptor {
             setup();
         }
 
-        /*TODO: Add auth logic for google accounts*/
         logger.info(request.toString());
         logger.info(request.getServletPath());
         ArrayList<String> allowedUrls = new ArrayList<>(Arrays.asList("/index.html", "/", "css/bootstrap.min.css"));
         if (!allowedUrls.contains(request.getServletPath())) {
             OAuth2User user = ((OAuth2AuthenticationToken) request.getUserPrincipal()).getPrincipal();
-            logger.info(user.getAttribute("email"));
-            logger.info(userArr.toString());
+
             if (!userArr.contains(user.getAttribute("email"))) {
                 throw new ForbiddenException();
             }
         }
-        /*TODO: Read from arguments the server start command*/
         return true;
     }
 }

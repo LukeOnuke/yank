@@ -22,8 +22,32 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-    <div class="container flex-grow-1">
-      {{status.online}}{{status}}
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/index.html">Console</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/status/index.html">Status</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <a href="/logout" class="btn btn-lg btn-outline-primary">Logout</a>
+        </form>
+      </div>
+    </nav>
+    <div v-if="querry" class="container flex-grow-1">
+      
+      {{ querry.hostname }}
+    </div>
+    <div v-else class="container flex-grow-1">
+      <div class="jumbotron">
+        <h1 class="display-4 text-primary">Loading status</h1>
+        <p class="lead">Please wait.</p>
+        <hr class="my-4">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
     </div>
   </div>
   <script src="/js/status.js"></script>

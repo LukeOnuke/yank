@@ -1,27 +1,8 @@
-/*(function(angular) {
-var yank = angular.module('yank', []);
-var see = yank.controller('consoleController', function($scope) {
-  // the last received msg
-  $scope.console = {};
-
-  // handles the callback from the received event
-  var handlecallback = function(msg) {
-    $scope.$apply(function() {
-        $scope.console += "<p>" + json.parse(msg.message) + "</p>"
-    });
-  }
-
-  var source = new eventsource('/stats');
-  source.addeventlistener('message', handlecallback, false);
-  return true;
-});
-})(window.angular);*/
 var app = new Vue({
   el: "#app",
   data: {
     consoleLogs: [],
     command: "",
-    msg: "hello"
   }
 })
 

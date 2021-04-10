@@ -1,36 +1,22 @@
-var status = new Vue({
+var app = new Vue({
   el: "#status",
   data: {
-    status: {},
+    querry: undefined,
+    loading: false
   }
-})
+});
 
-window.onload = function reload(){
-  var resp = get("https://api.mcsrvstat.us/2/play.beocraft.net");
-  console.log(resp);
-  status.status = JSON.parse(resp);
+window.onload = function reload() {
+  get("https://api.mcsrvstat.us/2/play.beocraft.net").then(response => {
+    console.log(response);
+    app.querry = response;
+  });
 }
 
-function get(requestPath){
-  const requestOptions = {
+async function get(requestPath) {
+  var resp = await fetch(requestPath, {
     method: 'GET',
-    credentials: 'same-origin',
-  };
-  fetch(requestPath, requestOptions)
-    .then(async response => {
-      const data = await response.json();
-
-      // check for error response
-      if (!response.ok) {
-        // get error message from body or default to response status
-        const error = (data && data.message) || response.status;
-        return Promise.reject(error);
-      }
-
-      return data.message;
-    })
-    .catch(error => {
-      this.errorMessage = error;
-      console.error('Post error', error);
-    });
+    credentials: 'same-origin'
+  });
+  return resp.json();
 }
