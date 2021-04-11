@@ -23,6 +23,7 @@ import java.util.Objects;
 
 public class SecurityInterceptor implements HandlerInterceptor {
     private ArrayList<String> userArr;
+    private final ArrayList<String> allowedUrls = new ArrayList<>(Arrays.asList("/index.html", "/", "css/bootstrap.min.css"));
 
     private Logger logger = LoggerFactory.getLogger(SecurityInterceptor.class);
 
@@ -45,11 +46,13 @@ public class SecurityInterceptor implements HandlerInterceptor {
             setup();
         }
 
-        logger.info(request.toString());
-        logger.info(request.getServletPath());
-        ArrayList<String> allowedUrls = new ArrayList<>(Arrays.asList("/index.html", "/", "css/bootstrap.min.css"));
+
         if (!allowedUrls.contains(request.getServletPath())) {
             OAuth2User user = ((OAuth2AuthenticationToken) request.getUserPrincipal()).getPrincipal();
+
+            if(user.getAttribute("email") == null){
+                throw new ForbiddenException();
+            }
 
             if (!userArr.contains(user.getAttribute("email"))) {
                 throw new ForbiddenException();

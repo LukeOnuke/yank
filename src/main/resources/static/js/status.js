@@ -7,7 +7,7 @@ var app = new Vue({
 });
 
 window.onload = function reload() {
-  get("https://api.mcsrvstat.us/2/play.beocraft.net").then(response => {
+  get("https://api.mcsrvstat.us/2/play.samifying.com").then(response => {
     console.log(response);
     app.querry = response;
   });

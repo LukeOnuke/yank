@@ -1,15 +1,3 @@
-@media all and (max-height:820) and (max-width:450){
-  .heightCon{
-    height: 87vh;
-  }
-}
-
-@media all and (min-width: 450) and (min-height: 820){
-  .heightCon{
-    height: 90vh;
-  }
-}
-
 .width90{
   width: 90vw;
 }
