@@ -38,18 +38,20 @@
       </div>
     </nav>
     <div v-if="querry" class="container flex-grow-1">
-      <div class="d-flex flex-wrap">
+      <div class="d-flex flex-wrap justify-content-center">
         <div class="card m-2">
           <div class="card-header">
             Server
           </div>
           <div class="card-body">
             <h5 class="card-title">Basic server status</h5>
-            <p class="card-text">{{ querry.hostname}} : {{+querry.port }}</p>
-            <p class="card-text badge badge-secondary">({{ querry.ip }})</p>
+            <p class="card-text">Server hostname : <span class="badge badge-info text-white">{{querry.hostname}}</span></p>
+            <p class="card-text">Server port : <span class="badge badge-info text-white">{{querry.port}}</span></p>
+            <p class="card-text">Server ip : <span class="badge badge-secondary text-white">{{querry.ip}}</span></p>
+            <hr class="my-4">
             <h5 class="">MOTD</h5>
-            <div class="card-text" v-for="motd in querry.motd.clean">
-              {{ motd }}
+            <div class="card-text" v-for="motd in querry.motd.html">
+              <p v-html="motd"></p>
             </div>
           </div>
         </div>
@@ -61,7 +63,7 @@
             <h5 class="card-title">Player data</h5>
             <p class="card-text">Players online {{ querry.players.online }} out of {{ querry.players.max }}</p>
             <div v-for="player in querry.players.list" class="card-text">
-              <a class="badge badge-primary text-white" :href="'https://sr.namemc.com/profile/' + player" target="_blank">{{player}}</a>
+              <a class="badge badge-primary text-white" :href="'https://namemc.com/profile/' + player" target="_blank">{{player}}</a>
             </div>
           </div>
         </div>
@@ -73,20 +75,19 @@
             <h5 class="card-title">Advanced data</h5>
             <p class="card-text">Ping used : <span class="badge badge-secondary">{{querry.debug.ping}}</span></p>
             <p class="card-text">Querry used : <span class="badge badge-secondary">{{querry.debug.query}}</span></p>
-            <p class="card-text">Srv detected : <span class="badge badge-secondary">{{querry.debug.srv}}</span></p>
+            <p class="card-text">SRV detected : <span class="badge badge-secondary">{{querry.debug.srv}}</span></p>
             <p class="card-text">Querry mismach : <span class="badge badge-secondary">{{querry.debug.querymismatch}}</span></p>
-            <p class="card-text">Ip in srv record : <span class="badge badge-secondary">{{querry.debug.ipinsrv}}</span></p>
-            <p class="card-text">Cname in srv record : <span class="badge badge-secondary">{{querry.debug.cnameinsrv}}</span></p>
-            <p class="card-text text-info">SRV should only contain A/AAAA records</p>
-            <p class="card-text">Animated motd : <span class="badge badge-secondary">{{querry.debug.animatedmotd}}</span></p>
+            <p class="card-text">IP in SRV record : <span class="badge badge-secondary">{{querry.debug.ipinsrv}}</span></p>
+            <p class="card-text">CNAME in SRV record : <span class="badge badge-secondary">{{querry.debug.cnameinsrv}}</span></p>
+            <p class="card-text">Animated MOTD : <span class="badge badge-secondary">{{querry.debug.animatedmotd}}</span></p>
             <p class="card-text">Cachetime : <span class="badge badge-secondary"> {{querry.debug.cachetime}}</span></p>
-            <p class="card-text">Api version : <span class="badge badge-secondary">{{querry.debug.apiversion}}</span></p>
+            <p class="card-text">API version : <span class="badge badge-secondary">{{querry.debug.apiversion}}</span></p>
           </div>
         </div>
       </div>
     </div>
     <div v-else class="container flex-grow-1">
-      <div class="jumbotron">
+      <div class="jumbotron m-4">
         <h1 class="display-4 text-primary">Loading status</h1>
         <p class="lead">Please wait.</p>
         <hr class="my-4">
