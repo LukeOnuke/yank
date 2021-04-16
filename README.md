@@ -16,6 +16,8 @@ spring.security.oauth2.client.registration.google.client-id=<google-oauth2-clien
 spring.security.oauth2.client.registration.google.client-secret=<google-oauth2-client-secret>
 spring.jpa.hibernate.ddl-auto=update
 spring.datasource.url=jdbc:h2:file:<full path to db file (see example)>
+minecraft.server.ip:<server-ip>
+minecraft.server.port:<server-port>
 ```
 For example /home/users/mcserver/yank/db will use the `yank` folder 
 in `/home/users/mcserver` and create the db files starting with the db prefix.
