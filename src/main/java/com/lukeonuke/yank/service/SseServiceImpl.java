@@ -4,12 +4,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class SseServiceImpl implements SseService {
 
-    private final List<SseEmitter> emitters = new ArrayList<SseEmitter>();
+    private final List<SseEmitter> emitters = Collections.synchronizedList(new ArrayList<>());;
 
     @Override
     public boolean add(SseEmitter sseEmitter) {

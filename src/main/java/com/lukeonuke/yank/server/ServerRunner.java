@@ -26,6 +26,7 @@ public class ServerRunner implements CommandLineRunner {
     private final Logger LOGGER = LoggerFactory.getLogger(ServerRunner.class);
     private PrintStream consoleInput;
     private BufferedReader consoleOutput;
+    private Process process = null;
     @Autowired
     SseServiceImpl sseService;
     @Autowired
@@ -38,7 +39,6 @@ public class ServerRunner implements CommandLineRunner {
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.directory(new File("server/").getAbsoluteFile());
         processBuilder.redirectErrorStream(true);
-        Process process = null;
         try {
             process = processBuilder.start();//Runtime.getRuntime().exec(command, new String[]{}, new File("server/"));//Runtime.getRuntime().exec(command, new String[]{}, new File("server/"));
             LOGGER.info("[game-server] Started process with PID:" + process.pid());
@@ -70,6 +70,11 @@ public class ServerRunner implements CommandLineRunner {
         assert consoleInput != null;
         consoleInput.println("stop");
         consoleInput.flush();
+        LOGGER.info("Issued stop command, now waiting for it to close the game server.");
+        while(process.isAlive()){
+            //Wait for the server to close
+        }
+        LOGGER.info("Game server closed, resuming shutdown sequence.");
         consoleInput.close();
         try {
             consoleOutput.close();
@@ -88,14 +93,22 @@ public class ServerRunner implements CommandLineRunner {
         repository.save(data);
 
         //send over using web push
-        sseService.getSsEmitters().forEach((SseEmitter emitter) -> {
+        SseEmitter emitter;
+        for(int index = 0; index < sseService.getSsEmitters().size(); index++){
+            emitter = sseService.getSsEmitters().get(index);
             try {
                 emitter.send(data, MediaType.APPLICATION_JSON);
             } catch (IOException e) {
-                emitter.complete();
                 sseService.remove(emitter);
             }
-        });
+        }
+        /*sseService.getSsEmitters().forEach((SseEmitter emitter) -> {
+            try {
+                emitter.send(data, MediaType.APPLICATION_JSON);
+            } catch (IOException e) {
+                sseService.remove(emitter);
+            }
+        });*/
     }
 
     public BufferedReader getConsoleOutput() {

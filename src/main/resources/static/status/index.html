@@ -45,9 +45,10 @@
           </div>
           <div class="card-body">
             <h5 class="card-title">Basic server status</h5>
+            <img :src="https://api.mcsrvstat.us/icon/ + responseHost.ip + : + responseHost.port" class="img-thumbnail" alt="Server icon"></img>
             <p class="card-text">Server hostname : <span class="badge badge-info text-white">{{querry.hostname}}</span></p>
             <p class="card-text">Server port : <span class="badge badge-info text-white">{{querry.port}}</span></p>
-            <p class="card-text">Server ip : <span class="badge badge-secondary text-white">{{querry.ip}}</span></p>
+            <p class="card-text">Server IP : <span class="badge badge-secondary text-white">{{querry.ip}}</span></p>
             <hr class="my-4">
             <h5 class="">MOTD</h5>
             <div class="card-text" v-for="motd in querry.motd.html">
@@ -95,6 +96,7 @@
       </div>
     </div>
   </div>
+  <script src="/js/common.js"></script>
   <script src="/js/status.js"></script>
 </body>
 

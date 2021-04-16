@@ -37,10 +37,10 @@
         </form>
       </div>
     </nav>
-    <div class="jumbotron jumbotron-fluid scroll bg-dark flex-grow-1 mb-0">
+    <div class="jumbotron jumbotron-fluid scroll bg-dark flex-grow-1 mb-0" v-on:scroll.passive="handleScroll" id="console">
       <div class="container">
         <p class="text-white log" v-for="consoleLog in consoleLogs">
-          <span class="badge badge-primary bg-secondary">{{consoleLog.timestamp}}</span>{{ consoleLog.message }}
+          <span class="badge badge-primary bg-secondary">{{formatTime(consoleLog.timestamp)}}</span>{{ consoleLog.message }}
         </p>
       </div>
     </div>
@@ -58,7 +58,8 @@
       </div>
     </div>
   </div>
-    <script src="/js/main.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 
 </html>

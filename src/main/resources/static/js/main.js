@@ -1,8 +1,29 @@
-var app = new Vue({
+let app = new Vue({
   el: "#app",
   data: {
     consoleLogs: [],
     command: "",
+    deltaT: 0
+  },
+  methods: {
+    handleScroll: function(e) {
+      //console.log(e.target.scrollTop);
+      if (e.target.scrollTop < 50) {
+        let respId = app.consoleLogs[0].id;
+        respId--;
+        get("/api/v1/log/id/" + respId).then((resp) => {
+          console.log("Got response as user scrolled up " + JSON.stringify(resp));
+          app.consoleLogs.unshift(resp);
+        });
+      }
+    },
+    formatTime: function(timestamp) {
+      return formatTime(timestamp);
+    },
+    scrollConsoleToBottom: function scrollConsoleToBottom(){
+      let consoleElement = app.$el.querySelector("#console");
+      consoleElement.scrollTop = consoleElement.scrollHeight;
+    }
   }
 })
 
@@ -12,12 +33,12 @@ function setupConsoleEvent() {
   });
   consoleAddEvent.onmessage = function(event) {
     var object = JSON.parse(event.data);
-    object.timestamp = format_time(object.timestamp);
+    //object.timestamp = formatTime(object.timestamp);
     app.consoleLogs.push(object);
     console.log("Server sent console event " + event.data);
+    app.scrollConsoleToBottom();
   }
-  consoleAddEvent.onerror = function (err) {
-
+  consoleAddEvent.onerror = function(err) {
   }
 }
 
@@ -55,10 +76,22 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function format_time(s) {
-  return new Intl.DateTimeFormat().format(new Date(s));
+function formatTime(s) {
+  return new Date(s).toLocaleString();
 }
 
 window.onload = function() {
   setupConsoleEvent();
+
+  console.log("Sending request to fill up the console");
+  get("/api/v1/log/latest/20").then((resp) => {
+    console.log("Content response : " + JSON.stringify(resp));
+    console.log("Content string : " + resp);
+    let i = 0;
+    for(let respObj of resp){
+      app.consoleLogs.unshift(respObj);
+    }
+    let container = app.$el.querySelector("#console");
+    container.scrollTop = container.scrollHeight;
+  });
 }
