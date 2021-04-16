@@ -10,9 +10,9 @@
     </parent>
     <groupId>com.lukeonuke</groupId>
     <artifactId>yank</artifactId>
-    <version>0.0.1a</version>
+    <version>0.0.2a</version>
     <name>yank</name>
-    <description>Yank, the web package manager for game servers</description>
+    <description>Yank, the minecraft server web manager</description>
     <properties>
         <java.version>11</java.version>
     </properties>
