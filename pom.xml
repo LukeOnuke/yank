@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.lukeonuke</groupId>
     <artifactId>yank</artifactId>
-    <version>0.0.2a</version>
+    <version>0.0.3a</version>
     <name>yank</name>
     <description>Yank, the minecraft server web manager</description>
     <properties>

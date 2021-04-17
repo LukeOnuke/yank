@@ -1,5 +1,6 @@
 package com.lukeonuke.yank.config;
 
+import com.lukeonuke.yank.YankUtil;
 import com.lukeonuke.yank.exception.ForbiddenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +24,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
     private Logger logger = LoggerFactory.getLogger(SecurityInterceptor.class);
 
     private void setup(){
-        File file = new File("users.conf");
         try {
-            if(!file.exists()){
-                file.createNewFile();
-            }
             userArr = new ArrayList<>(Files.readAllLines(Paths.get("users.conf")));
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,11 +40,14 @@ public class SecurityInterceptor implements HandlerInterceptor {
 
 
         if (!allowedUrls.contains(request.getServletPath())) {
-            OAuth2User user = ((OAuth2AuthenticationToken) request.getUserPrincipal()).getPrincipal();
+            YankUtil.validateNotNull(request.getUserPrincipal()); //validate userPrincipal before casting
 
-            if(user.getAttribute("email") == null){
-                throw new ForbiddenException();
-            }
+            OAuth2AuthenticationToken requestPrincipal = (OAuth2AuthenticationToken)request.getUserPrincipal();
+            OAuth2User user = requestPrincipal.getPrincipal();
+
+            //Check for not null
+            YankUtil.validateNotNull(user);
+            YankUtil.validateNotNull(user.getAttribute("email"));
 
             if (!userArr.contains(user.getAttribute("email"))) {
                 throw new ForbiddenException();

@@ -1,5 +1,6 @@
 package com.lukeonuke.yank.server;
 
+import com.lukeonuke.yank.YankApplication;
 import com.lukeonuke.yank.data.log.LogEntry;
 import com.lukeonuke.yank.data.log.LogEntryRepository;
 import com.lukeonuke.yank.service.SseServiceImpl;
@@ -7,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -31,6 +34,8 @@ public class ServerRunner implements CommandLineRunner {
     SseServiceImpl sseService;
     @Autowired
     LogEntryRepository repository;
+    @Autowired
+    private ApplicationContext appContext;
 
     @Override
     public void run(String... args) throws Exception {
@@ -55,13 +60,16 @@ public class ServerRunner implements CommandLineRunner {
         while(process.isAlive()){
             try {
                 save = consoleOutput.readLine();
-                if(!save.equals("")){
-                    log(save);
+                if (save != null) {
+                    if(!save.equals("")){
+                        log(save);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        SpringApplication.exit(appContext, () -> 0);
     }
 
     @PreDestroy
