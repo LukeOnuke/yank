@@ -12,15 +12,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.FileSystemResource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @SpringBootApplication
 public class YankApplication {
+    private static ArrayList<String> argList;
     public static void main(String[] args) {
+        argList = new ArrayList<>(Arrays.asList(args));
+
         SelfTestRunner selfTestRunner = new SelfTestRunner();
         selfTestRunner.register(new ServerFilesNotLockedTest());
         selfTestRunner.register(new UsersConfTest());
         selfTestRunner.register(new ProgramPropertiesTest());
-        selfTestRunner.run();
-
+        if(!argList.contains("-skiptests")){
+            selfTestRunner.run();
+        }
 
         SpringApplication.run(YankApplication.class, args);
     }
@@ -32,5 +39,13 @@ public class YankApplication {
         properties.setLocation(new FileSystemResource("program.properties"));
         properties.setIgnoreResourceNotFound(false);
         return properties;
+    }
+
+    /**
+     * Get the list of arguments
+     * @return Arguments in type <b>ArrayList</b>
+     */
+    public static ArrayList<String> getArgList() {
+        return argList;
     }
 }

@@ -1,4 +1,4 @@
-package com.lukeonuke.yank;
+package com.lukeonuke.yank.config;
 
 import com.lukeonuke.yank.exception.ForbiddenException;
 import org.slf4j.Logger;

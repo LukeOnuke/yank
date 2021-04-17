@@ -1,4 +1,4 @@
-package com.lukeonuke.yank;
+package com.lukeonuke.yank.endpoints;
 
 import com.lukeonuke.yank.data.log.LogEntry;
 import com.lukeonuke.yank.data.log.LogEntryRepository;

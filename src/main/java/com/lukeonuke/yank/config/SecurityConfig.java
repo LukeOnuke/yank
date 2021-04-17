@@ -1,4 +1,4 @@
-package com.lukeonuke.yank;
+package com.lukeonuke.yank.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
