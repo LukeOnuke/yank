@@ -14,8 +14,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.FileSystemResource;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
 
 @SpringBootApplication
 public class YankApplication {
@@ -30,17 +33,26 @@ public class YankApplication {
         if(!argList.contains("-skiptests")){
             selfTestRunner.run();
         }
-        SpringApplication.run(YankApplication.class, args);
+        SpringApplication application = new SpringApplication(YankApplication.class);
+
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileReader("program.properties"));
+            application.setDefaultProperties(properties);
+            application.run(args);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Bean
+    /*@Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         PropertySourcesPlaceholderConfigurer properties =
                 new PropertySourcesPlaceholderConfigurer();
         properties.setLocation(new FileSystemResource("program.properties"));
         properties.setIgnoreResourceNotFound(false);
         return properties;
-    }
+    }*/
 
     /**
      * Get the list of arguments

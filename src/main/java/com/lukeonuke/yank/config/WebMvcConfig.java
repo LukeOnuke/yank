@@ -1,5 +1,6 @@
 package com.lukeonuke.yank.config;
 
+import com.lukeonuke.yank.endpoints.SecurityInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

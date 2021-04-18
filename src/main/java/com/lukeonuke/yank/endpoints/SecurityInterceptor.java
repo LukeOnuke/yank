@@ -1,4 +1,4 @@
-package com.lukeonuke.yank.config;
+package com.lukeonuke.yank.endpoints;
 
 import com.lukeonuke.yank.YankUtil;
 import com.lukeonuke.yank.exception.ForbiddenException;
@@ -10,7 +10,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
