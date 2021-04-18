@@ -1,7 +1,8 @@
-name: ci
+name: Docs
 on:
   push:
     branches:
+      - main
       - master
 jobs:
   deploy:
