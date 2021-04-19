@@ -44,16 +44,6 @@ public class YankApplication {
             e.printStackTrace();
         }
     }
-
-    /*@Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        PropertySourcesPlaceholderConfigurer properties =
-                new PropertySourcesPlaceholderConfigurer();
-        properties.setLocation(new FileSystemResource("program.properties"));
-        properties.setIgnoreResourceNotFound(false);
-        return properties;
-    }*/
-
     /**
      * Get the list of arguments
      * @return Arguments in type <b>ArrayList</b>
