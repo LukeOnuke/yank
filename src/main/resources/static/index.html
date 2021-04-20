@@ -16,46 +16,56 @@
 </head>
 
 <body>
-  <div id="app" class="fill-height d-flex flex-column">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-light">
-      <a class="navbar-brand text-primary" href="/app/index.html">Yank</a>
-      <button class="navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+  <div id="app" class="fill-height">
+    <div class="fill-height d-flex flex-column" v-if="authorised.authorised === true">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-light">
+        <a class="navbar-brand text-primary" href="/app/index.html">Yank</a>
+        <button class="navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/index.html">Console</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/status/index.html">Status</a>
-          </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <a href="/logout" class="btn btn-lg btn-outline-primary">Logout</a>
-        </form>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/index.html">Console</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/status/index.html">Status</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <a href="/logout" class="btn btn-lg btn-outline-primary">Logout</a>
+          </form>
+        </div>
+      </nav>
+      <div class="jumbotron jumbotron-fluid scroll bg-dark flex-grow-1 mb-0" v-on:scroll.passive="handleScroll" id="console">
+        <div class="container">
+          <p class="text-white log" v-for="consoleLog in consoleLogs">
+            <span class="badge badge-primary bg-secondary">{{formatTime(consoleLog.timestamp)}}</span>{{ consoleLog.message }}
+          </p>
+        </div>
       </div>
-    </nav>
-    <div class="jumbotron jumbotron-fluid scroll bg-dark flex-grow-1 mb-0" v-on:scroll.passive="handleScroll" id="console">
-      <div class="container">
-        <p class="text-white log" v-for="consoleLog in consoleLogs">
-          <span class="badge badge-primary bg-secondary">{{formatTime(consoleLog.timestamp)}}</span>{{ consoleLog.message }}
-        </p>
-      </div>
-    </div>
-    <!--<div class="d-flex justify-content-center align-items-center gap-3 mt-4 mb-4">
+      <!--<div class="d-flex justify-content-center align-items-center gap-3 mt-4 mb-4">
       <input class="width90" id="rconInput" v-model="command"></input>
       <button onclick="send()" id="rconButton" class="btn btn-primary">Send</button>
     </div>-->
 
-    <div class="container mt-3 mb-3">
-      <div class="input-group width-90">
-        <input type="text" class="form-control text-white" placeholder="Send a command" aria-label="" aria-describedby="basic-addon1" v-model="command"></input>
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="button" onclick="send()">Send</button>
+      <div class="container mt-3 mb-3">
+        <div class="input-group width-90">
+          <input type="text" class="form-control text-white" placeholder="Send a command" aria-label="" aria-describedby="basic-addon1" v-model="command"></input>
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button" onclick="send()">Send</button>
+          </div>
         </div>
       </div>
+    </div>
+    <div v-else-if="authorised.authorised === false" class="container">
+      <h1>You do not have accses to this application</h1>
+      <p>If this is the error contact the pages administrators</p>
+      <a href="/logout" class="btn btn-lg btn-primary">Logout</a>
+    </div>
+    <div v-else class="container">
+      <h1>Loading...</h1>
     </div>
   </div>
   <script src="/js/common.js"></script>

@@ -18,16 +18,20 @@ import java.util.Arrays;
 
 public class SecurityInterceptor implements HandlerInterceptor {
     private ArrayList<String> userArr;
-    private final ArrayList<String> allowedUrls = new ArrayList<>(Arrays.asList("/index.html", "/", "css/bootstrap.min.css"));
+    private final ArrayList<String> allowedUrls = new ArrayList<>(Arrays.asList("/index.html", "/", "/css/bootstrap.min.css", "/api/v1/user/authorised", "/js/main.js", "/js/common.js"));
 
     private Logger logger = LoggerFactory.getLogger(SecurityInterceptor.class);
 
     private void setup(){
         try {
-            userArr = new ArrayList<>(Files.readAllLines(Paths.get("users.conf")));
+            userArr = read();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<String> read() throws IOException {
+        return new ArrayList<>(Files.readAllLines(Paths.get("users.conf")));
     }
 
     @Override

@@ -3,7 +3,8 @@ let app = new Vue({
   data: {
     consoleLogs: [],
     command: "",
-    deltaT: 0
+    deltaT: 0,
+    authorised: {}
   },
   methods: {
     handleScroll: function(e) {
@@ -81,17 +82,21 @@ function formatTime(s) {
 }
 
 window.onload = function() {
-  setupConsoleEvent();
+  get("/api/v1/user/authorised").then((resp) => {
+    app.authorised = resp;
 
-  console.log("Sending request to fill up the console");
-  get("/api/v1/log/latest/20").then((resp) => {
-    console.log("Content response : " + JSON.stringify(resp));
-    console.log("Content string : " + resp);
-    let i = 0;
-    for(let respObj of resp){
-      app.consoleLogs.unshift(respObj);
-    }
-    let container = app.$el.querySelector("#console");
-    container.scrollTop = container.scrollHeight;
+    setupConsoleEvent();
+
+      console.log("Sending request to fill up the console");
+      get("/api/v1/log/latest/20").then((resp) => {
+        console.log("Content response : " + JSON.stringify(resp));
+        console.log("Content string : " + resp);
+        let i = 0;
+        for(let respObj of resp){
+          app.consoleLogs.unshift(respObj);
+        }
+        let container = app.$el.querySelector("#console");
+        container.scrollTop = container.scrollHeight;
+      });
   });
 }
