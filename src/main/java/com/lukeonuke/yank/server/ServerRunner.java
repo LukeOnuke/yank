@@ -7,6 +7,7 @@ import com.lukeonuke.yank.service.SseServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
@@ -34,13 +35,15 @@ public class ServerRunner implements CommandLineRunner {
     SseServiceImpl sseService;
     @Autowired
     LogEntryRepository repository;
+    @Value("${minecraft.server.start:java -Xmx5120M -Xms1024M -jar server.jar -nogui}")
+    String startCommand;
     @Autowired
     private ApplicationContext appContext;
 
     @Override
     public void run(String... args) throws Exception {
-        // save a few customers
-        String[] command = new String[]{"java", "-Xmx5120M", "-Xms1024M", "-jar", "server.jar", "-nogui"};
+        String[] command; //= new String[]{"java", "-Xmx5120M", "-Xms1024M", "-jar", "server.jar", "-nogui"};
+        command = startCommand.split(" ");
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.directory(new File("server/").getAbsoluteFile());
         processBuilder.redirectErrorStream(true);
