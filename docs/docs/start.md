@@ -46,4 +46,9 @@ superuser@gmail.com
    
 ---
 Finally you are done, start yank again and if you've done everything 
-right it should start.
+right it should start, navigate to http://localhost:8080 or 
+http://yourdomain.example.com:8080 and it should work.
+
+## Still need help?
+Luckily we have a discord server!
+https://discord.gg/VVuQB868wU
