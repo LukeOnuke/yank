@@ -12,5 +12,11 @@ Docs : https://lukeonuke.com/yank/
 
 Releases : https://github.com/LukeOnuke/yank/releases/latest
 
+# How it looks?
+Like this!
+
+- Console ![console](https://i.imgur.com/aIGEFUC.png)
+- Status ![status](https://i.imgur.com/mueqAU3.png)
+
 ## Installation
 Follow the guide at : https://lukeonuke.com/yank/start/
