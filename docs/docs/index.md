@@ -9,3 +9,9 @@ Secure and low impact minecraft server manager.
 | Latest release including prereleases | ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LukeOnuke/yank?color=lime&include_prereleases)
 
 Total downloads : ![GitHub all releases](https://img.shields.io/github/downloads/LukeOnuke/yank/total)
+
+# How it looks?
+Like this!
+
+- Console ![console](https://i.imgur.com/aIGEFUC.png)
+- Status ![status](https://i.imgur.com/mueqAU3.png)
