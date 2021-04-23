@@ -1,2 +1,3 @@
 # Api documentation for yank
-(documentation work in progress)
+Yank exposes an api for managing a server programmatically. It uses google oauth for
+auth.

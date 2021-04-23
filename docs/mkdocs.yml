@@ -1,6 +1,6 @@
 site_name: Yank
 repo_url: https://github.com/LukeOnuke/yank/
-edit_uri: /docs/docs/
+edit_uri: /tree/main/docs/docs
 site_description: Project Yank. The home of the minecraft web interface server manager and api.
 theme:
   name: material
