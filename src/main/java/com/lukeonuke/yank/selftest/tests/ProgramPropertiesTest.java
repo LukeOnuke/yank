@@ -25,6 +25,7 @@ public class ProgramPropertiesTest extends SelfTest {
                 prop.setProperty("minecraft.server.ip", "IP");
                 prop.setProperty("minecraft.server.port", "25565");
                 prop.setProperty("minecraft.server.start", "java -Xmx5120M -Xms1024M -jar server.jar -nogui");
+                prop.setProperty("minecraft.server.restartCount", "5");
                 prop.store(output, "Yank configuration file, look to yank docs for more info");
             } catch (IOException e) {
                 e.printStackTrace();

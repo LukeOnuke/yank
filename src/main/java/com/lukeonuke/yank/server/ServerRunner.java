@@ -27,7 +27,7 @@ import java.time.Instant;
 @Component
 @Profile("!test")
 public class ServerRunner implements CommandLineRunner {
-    private final Logger LOGGER = LoggerFactory.getLogger(ServerRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServerRunner.class);
     private PrintStream consoleInput;
     private BufferedReader consoleOutput;
     private Process process = null;
@@ -37,42 +37,14 @@ public class ServerRunner implements CommandLineRunner {
     LogEntryRepository repository;
     @Value("${minecraft.server.start:java -Xmx5120M -Xms1024M -jar server.jar -nogui}")
     String startCommand;
-    @Autowired
-    private ApplicationContext appContext;
+    @Value("${minecraft.server.restartCount:5}")
+    Long maxRestartCount;
+    private long restartCount=0;
+    @Autowired ApplicationContext appContext;
 
     @Override
     public void run(String... args) throws Exception {
-        String[] command; //= new String[]{"java", "-Xmx5120M", "-Xms1024M", "-jar", "server.jar", "-nogui"};
-        command = startCommand.split(" ");
-        ProcessBuilder processBuilder = new ProcessBuilder(command);
-        processBuilder.directory(new File("server/").getAbsoluteFile());
-        processBuilder.redirectErrorStream(true);
-        try {
-            process = processBuilder.start();//Runtime.getRuntime().exec(command, new String[]{}, new File("server/"));//Runtime.getRuntime().exec(command, new String[]{}, new File("server/"));
-            LOGGER.info("[game-server] Started process with PID:" + process.pid());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        assert process != null;
-
-        consoleOutput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        consoleInput = new PrintStream(process.getOutputStream());
-
-        String save;
-        while(process.isAlive()){
-            try {
-                save = consoleOutput.readLine();
-                if (save != null) {
-                    if(!save.equals("")){
-                        log(save);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        SpringApplication.exit(appContext, () -> 0);
+        startServer();
     }
 
     @PreDestroy
@@ -120,6 +92,48 @@ public class ServerRunner implements CommandLineRunner {
                 sseService.remove(emitter);
             }
         });*/
+    }
+
+    private void startServer(){
+        String[] command; //= new String[]{"java", "-Xmx5120M", "-Xms1024M", "-jar", "server.jar", "-nogui"};
+        command = startCommand.split(" ");
+        ProcessBuilder processBuilder = new ProcessBuilder(command);
+        processBuilder.directory(new File("server/").getAbsoluteFile());
+        processBuilder.redirectErrorStream(true);
+        try {
+            process = processBuilder.start();//Runtime.getRuntime().exec(command, new String[]{}, new File("server/"));//Runtime.getRuntime().exec(command, new String[]{}, new File("server/"));
+            LOGGER.info("[game-server] Started process with PID:" + process.pid());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assert process != null;
+
+        consoleOutput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        consoleInput = new PrintStream(process.getOutputStream());
+
+        String save;
+        while(process.isAlive()){
+            try {
+                save = consoleOutput.readLine();
+                if (save != null) {
+                    if(!save.equals("")){
+                        log(save);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        restartCount++;
+        if(restartCount < maxRestartCount){
+            LOGGER.info("Restart attempt " + (restartCount + 1) + "/" + maxRestartCount);
+            startServer();
+        }else{
+            LOGGER.info("Reached max restart interval of : " + maxRestartCount);
+            SpringApplication.exit(appContext, () -> 0);
+        }
+
     }
 
     public BufferedReader getConsoleOutput() {

@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Currently there are no lts versions, so only the latest is supported
+Currently, there are no lts versions, so only the latest is supported
 
 | Version  | Supported          |
 | -------- | ------------------ |
