@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 .csrf().ignoringAntMatchers("/api/v1/server/send").and()
                 .antMatcher("/**").authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/api/v1/user/simple").permitAll()
+                .antMatchers("/css/**", "/js/**", "/api/v1/user/simple", "/favicon.ico").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

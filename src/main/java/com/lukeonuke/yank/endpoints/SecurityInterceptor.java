@@ -17,12 +17,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SecurityInterceptor implements HandlerInterceptor {
-    private ArrayList<String> userArr;
-    private final ArrayList<String> allowedUrls = new ArrayList<>(Arrays.asList("/index.html", "/", "/css/bootstrap.min.css", "/api/v1/user/authorised", "/js/main.js", "/js/common.js"));
+    private static ArrayList<String> userArr;
+    private final ArrayList<String> allowedUrls = new ArrayList<>(Arrays.asList("/index.html",
+            "/",
+            "/css/bootstrap.min.css",
+            "/api/v1/user/authorised",
+            "/js/main.js",
+            "/js/common.js",
+            "/favicon.ico"));
 
     private Logger logger = LoggerFactory.getLogger(SecurityInterceptor.class);
 
-    private void setup(){
+    private void setup() {
         try {
             userArr = read();
         } catch (IOException e) {
@@ -37,7 +43,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        if(userArr == null){
+        if (userArr == null) {
             setup();
         }
 
@@ -45,7 +51,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
         if (!allowedUrls.contains(request.getServletPath())) {
             YankUtil.validateNotNull(request.getUserPrincipal()); //validate userPrincipal before casting
 
-            OAuth2AuthenticationToken requestPrincipal = (OAuth2AuthenticationToken)request.getUserPrincipal();
+            OAuth2AuthenticationToken requestPrincipal = (OAuth2AuthenticationToken) request.getUserPrincipal();
             OAuth2User user = requestPrincipal.getPrincipal();
 
             //Check for not null

@@ -40,6 +40,8 @@ function setupConsoleEvent() {
     app.scrollConsoleToBottom();
   }
   consoleAddEvent.onerror = function(err) {
+    alert("Lost connection to server.");
+    window.close();
   }
 }
 
