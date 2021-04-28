@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +45,8 @@ public class ServerController {
     @PostMapping(path = "send", consumes = "text/plain;charset=UTF-8", produces = "application/json")
     public boolean sendToServer(@RequestBody String command, @AuthenticationPrincipal OAuth2User user){
         LOGGER.info(user.getAttribute("email") + " has sent command : " + command);
+        serverRunner.pushAndSaveMessage(new LogEntry(user.getAttribute("email") + " has sent command : " + command, Instant.now().toEpochMilli()));
+        //Halt command, if i implement more ill need to add a command manager just like the self-test.
         if(command.trim().equals("//halt")){
             SpringApplication.exit(appContext, () -> 0);
         }

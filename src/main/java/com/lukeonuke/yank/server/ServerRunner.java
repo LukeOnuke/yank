@@ -1,6 +1,5 @@
 package com.lukeonuke.yank.server;
 
-import com.lukeonuke.yank.YankApplication;
 import com.lukeonuke.yank.data.log.LogEntry;
 import com.lukeonuke.yank.data.log.LogEntryRepository;
 import com.lukeonuke.yank.service.SseServiceImpl;
@@ -14,10 +13,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.annotation.PreDestroy;
@@ -75,23 +70,7 @@ public class ServerRunner implements CommandLineRunner {
         LogEntry data = new LogEntry(message, Instant.now().toEpochMilli());
         repository.save(data);
 
-        //send over using web push
-        SseEmitter emitter;
-        for(int index = 0; index < sseService.getSsEmitters().size(); index++){
-            emitter = sseService.getSsEmitters().get(index);
-            try {
-                emitter.send(data, MediaType.APPLICATION_JSON);
-            } catch (IOException e) {
-                sseService.remove(emitter);
-            }
-        }
-        /*sseService.getSsEmitters().forEach((SseEmitter emitter) -> {
-            try {
-                emitter.send(data, MediaType.APPLICATION_JSON);
-            } catch (IOException e) {
-                sseService.remove(emitter);
-            }
-        });*/
+        pushMessage(data, MediaType.APPLICATION_JSON);
     }
 
     private void startServer(){
@@ -142,5 +121,23 @@ public class ServerRunner implements CommandLineRunner {
 
     public PrintStream getConsoleInput() {
         return consoleInput;
+    }
+
+    public void pushMessage(Object message, MediaType mediaType){
+        //send over using web push
+        SseEmitter emitter;
+        for(int index = 0; index < sseService.getSsEmitters().size(); index++){
+            emitter = sseService.getSsEmitters().get(index);
+            try {
+                emitter.send(message, mediaType);
+            } catch (IOException e) {
+                sseService.remove(emitter);
+            }
+        }
+    }
+
+    public void pushAndSaveMessage(LogEntry entry){
+        pushMessage(entry, MediaType.APPLICATION_JSON);
+        repository.save(entry);
     }
 }
