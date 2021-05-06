@@ -12,50 +12,49 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
   <link href="/css/style.css" rel="stylesheet">
-  </link>
 </head>
 
 <body>
-  <div id="app" class="fill-height">
-    <div class="fill-height d-flex flex-column" v-if="authorised.authorised === true">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-light">
-        <a class="navbar-brand text-primary" href="/app/index.html">Yank</a>
-        <button class="navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+  <div id="app" class="fill-height d-flex flex-column">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-light">
+      <a class="navbar-brand text-primary" href="/">Yank</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/index.html">Console</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/status/index.html">Status</a>
-            </li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <a href="/logout" class="btn btn-lg btn-outline-primary">Logout</a>
-          </form>
-        </div>
-      </nav>
-      <div class="jumbotron jumbotron-fluid scroll bg-dark flex-grow-1 mb-0" v-on:scroll.passive="handleScroll" id="console">
-        <div class="container">
-          <p class="text-white log" v-for="consoleLog in consoleLogs">
-            <span class="badge badge-primary bg-secondary">{{formatTime(consoleLog.timestamp)}}</span>{{ consoleLog.message }}
-          </p>
-        </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="/index.html">Console</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/status/index.html">Status</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <p class="pw-fin"></p>
+          <img class="pw-pi profile-image" src="/img/user.png" alt="profile image"></img>
+          <a href="/logout" class="btn btn-lg btn-outline-primary">Logout</a>
+        </form>
       </div>
-      <!--<div class="d-flex justify-content-center align-items-center gap-3 mt-4 mb-4">
+    </nav>
+    <div class="flex-grow-1 jumbotron jumbotron-fluid bg-dark mb-0 scroll" v-on:scroll.passive="handleScroll" id="console" v-if="authorised.authorised === true">
+      <div class="container">
+        <p class="text-white log" v-for="consoleLog in consoleLogs">
+          <span class="badge badge-primary bg-secondary">{{formatTime(consoleLog.timestamp)}}</span>{{ consoleLog.message }}
+        </p>
+      </div>
+    </div>
+    <!--<div class="d-flex justify-content-center align-items-center gap-3 mt-4 mb-4">
       <input class="width90" id="rconInput" v-model="command"></input>
       <button onclick="send()" id="rconButton" class="btn btn-primary">Send</button>
     </div>-->
 
-      <div class="container mt-3 mb-3">
-        <div class="input-group width-90">
-          <input type="text" class="form-control text-white" placeholder="Send a command" aria-label="" aria-describedby="basic-addon1" v-model="command"></input>
-          <div class="input-group-append">
-            <button class="btn btn-primary" type="button" onclick="send()">Send</button>
-          </div>
+    <div class="container mt-3 mb-3" v-if="authorised.authorised === true">
+      <div class="input-group width-90">
+        <input type="text" class="form-control text-white" placeholder="Send a command" aria-label="" aria-describedby="basic-addon1" v-model="command"></input>
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" onclick="send()">Send</button>
         </div>
       </div>
     </div>
@@ -67,9 +66,12 @@
     <div v-else class="container">
       <h1>Loading...</h1>
     </div>
+    </div>
   </div>
+
   <script src="/js/common.js"></script>
   <script src="/js/main.js"></script>
+  <script src="/js/profilewigets.js"></script>
 </body>
 
 </html>

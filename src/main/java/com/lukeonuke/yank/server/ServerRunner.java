@@ -97,7 +97,11 @@ public class ServerRunner implements CommandLineRunner {
                 save = consoleOutput.readLine();
                 if (save != null) {
                     if(!save.equals("")){
-                        log(save);
+                        try{
+                            log(save);
+                        }catch (IllegalStateException ex){
+                            LOGGER.warn("Database is unreachable when trying to write to it");
+                        }
                     }
                 }
             } catch (IOException e) {

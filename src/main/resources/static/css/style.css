@@ -9,6 +9,7 @@
 
 .fill-height{
   height: 100vh;
+  max-height: 100vh;
 }
 
 .fill-height-percentage{
@@ -17,4 +18,13 @@
 
 .log{
   font-family: 'Inconsolata', monospace;
+}
+
+.profile-image{
+  border-radius: 40px;
+  border-color: white;
+  border-width: 1px;
+  margin: 2px;
+  height: 40px;
+  width: 40px;
 }
