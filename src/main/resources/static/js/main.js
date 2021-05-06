@@ -4,7 +4,8 @@ let app = new Vue({
     consoleLogs: [],
     command: "",
     deltaT: 0,
-    authorised: {}
+    authorised: {},
+    connected: true
   },
   methods: {
     handleScroll: function(e) {
@@ -40,8 +41,7 @@ function setupConsoleEvent() {
     app.scrollConsoleToBottom();
   }
   consoleAddEvent.onerror = function(err) {
-    alert("Lost connection to server.");
-    window.close();
+    app.connected = false;
   }
 }
 

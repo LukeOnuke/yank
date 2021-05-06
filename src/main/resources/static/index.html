@@ -32,13 +32,13 @@
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-          <p class="pw-fin"></p>
-          <img class="pw-pi profile-image" src="/img/user.png" alt="profile image"></img>
+          <h4 class="pw-fin mx-2"></h4>
+          <img class="pw-pi profile-image mx-2" src="/img/user.png" alt="profile image"></img>
           <a href="/logout" class="btn btn-lg btn-outline-primary">Logout</a>
         </form>
       </div>
     </nav>
-    <div class="flex-grow-1 jumbotron jumbotron-fluid bg-dark mb-0 scroll" v-on:scroll.passive="handleScroll" id="console" v-if="authorised.authorised === true">
+    <div class="flex-grow-1 jumbotron jumbotron-fluid mb-0 scroll" v-on:scroll.passive="handleScroll" id="console" v-if="authorised.authorised === true && connected === true">
       <div class="container">
         <p class="text-white log" v-for="consoleLog in consoleLogs">
           <span class="badge badge-primary bg-secondary">{{formatTime(consoleLog.timestamp)}}</span>{{ consoleLog.message }}
@@ -50,7 +50,7 @@
       <button onclick="send()" id="rconButton" class="btn btn-primary">Send</button>
     </div>-->
 
-    <div class="container mt-3 mb-3" v-if="authorised.authorised === true">
+    <div class="container mt-3 mb-3" v-if="authorised.authorised === true && connected === true">
       <div class="input-group width-90">
         <input type="text" class="form-control text-white" placeholder="Send a command" aria-label="" aria-describedby="basic-addon1" v-model="command"></input>
         <div class="input-group-append">
@@ -63,9 +63,19 @@
       <p>If this is the error contact the pages administrators</p>
       <a href="/logout" class="btn btn-lg btn-primary">Logout</a>
     </div>
-    <div v-else class="container">
+    <div v-else-if="connected === true" class="container">
       <h1>Loading...</h1>
     </div>
+    <div v-if="connected === false" class="container">
+      <h1 class="">Lost connection to server</h1>
+      <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Connection to the server can not be established</h4>
+        <hr>
+        <p>Couldnt register eventsoruce to remote server. This could be caused
+          by a connection problem with your device,
+          or the server is down. For more info check <a href="https://lukeonuke.com/yank/errors/#Connection-to-the-server-can-not-be-established" class="alert-link">the doc page for this error.</a>
+        </p>
+      </div>
     </div>
   </div>
 

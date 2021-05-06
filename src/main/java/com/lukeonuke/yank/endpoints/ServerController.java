@@ -48,6 +48,8 @@ public class ServerController {
         serverRunner.pushAndSaveMessage(new LogEntry(user.getAttribute("email") + " has sent command : " + command, Instant.now().toEpochMilli()));
         //Halt command, if i implement more ill need to add a command manager just like the self-test.
         if(command.trim().equals("//halt")){
+            serverRunner.getConsoleInput().println("stop");
+            serverRunner.getConsoleInput().flush();
             SpringApplication.exit(appContext, () -> 0);
         }
 
