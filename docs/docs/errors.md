@@ -1,3 +1,9 @@
+#Errors
+This page provides insight into the various error prompts 
+that you might come across, this page is mostly directly
+linked to on the error prompt, so no need to memorise 
+what's what.
+
 # Connection to the server can not be established.
 The client couldn't connect to the server. 
 
