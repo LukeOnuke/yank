@@ -1,5 +1,8 @@
 package com.lukeonuke.yank.selftest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class SelfTest {
     /**
      * The method witch contains the test
