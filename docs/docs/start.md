@@ -50,6 +50,8 @@ The redirect URI that you set in the API Console determines where Google sends r
 > spring.security.oauth2.client.registration.google.client-id=<client id>
 > spring.security.oauth2.client.registration.google.client-secret=<client secret>
 > ```
+> Example image (yourdomain.example.com is a placeholder domain): 
+> ![example image](https://i.imgur.com/PkfRQT7.png)
 
 To create, view, or edit the redirect URIs for a given OAuth 2.0 credential, do the following:
 
