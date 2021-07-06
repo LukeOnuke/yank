@@ -16,4 +16,4 @@ Total downloads :
 Like this!
 
 - Console ![console](https://i.imgur.com/aIGEFUC.png)
-- Status ![status](https://i.imgur.com/mueqAU3.png)
+- Status ![status](https://i.imgur.com/xtGRTs5.png)

@@ -28,7 +28,7 @@ Click on the send button to send the command inputted to the
 server.
 
 ### Status
-![Status looks](https://i.imgur.com/mueqAU3.png)
+![status](https://i.imgur.com/xtGRTs5.png)
 
 It pings (or queries) the server for game info, when there
 are players online on the server the players page will have
